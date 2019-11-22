@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
     res.render(
         'index',
         {
-            nav: ['a', 'b'],
+            nav: ['Books', 'Authors'],
             title: 'Library'
         }
     );
