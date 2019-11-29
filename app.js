@@ -8,6 +8,11 @@ var app = express();
 const port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
+app.use((req, res, next) => {
+    debug('my middleware');
+    next();
+})
+
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
@@ -26,9 +31,13 @@ const nav = [
     }
 ];
 
-const bookRouter = require('./src/routes/bookRoutes')(nav);
+// const bookRouter = require('./src/routes/bookRoutes')(nav);
+let bookRouter = require('./src/routes/bookRoutes');
+bookRouter = bookRouter(nav);
+let adminRouter = require('./src/routes/adminRoutes')(nav);
 
 app.use('/books', bookRouter);
+app.use('/admin', adminRouter);
 app.get('/', (req, res) => {
     // res.sendFile(path.join(__dirname, 'views', 'index.html'));
     res.render(
