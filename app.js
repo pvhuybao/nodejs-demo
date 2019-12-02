@@ -3,11 +3,14 @@ var chalk = require('chalk');
 var debug = require('debug')('app');
 var morgan = require('morgan');
 var path = require('path');
+const bodyParser = require('body-parser');
 
 var app = express();
 const port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req, res, next) => {
     debug('my middleware');
     next();
@@ -35,9 +38,12 @@ const nav = [
 let bookRouter = require('./src/routes/bookRoutes');
 bookRouter = bookRouter(nav);
 let adminRouter = require('./src/routes/adminRoutes')(nav);
+let authRouter = require('./src/routes/authRoutes')(nav);
 
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
+app.use('/auth', authRouter);
+
 app.get('/', (req, res) => {
     // res.sendFile(path.join(__dirname, 'views', 'index.html'));
     res.render(

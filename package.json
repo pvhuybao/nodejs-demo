@@ -5,17 +5,19 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set DEBUG=app & nodemon app.js"
+    "start": "set DEBUG=app,app:* & nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "bootstrap": "^3.2.0",
     "chalk": "^3.0.0",
     "debug": "^4.1.1",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
+    "mongodb": "^3.3.5",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.0",
     "pug": "^2.0.4"
