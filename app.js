@@ -4,6 +4,9 @@ var debug = require('debug')('app');
 var morgan = require('morgan');
 var path = require('path');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -11,6 +14,10 @@ const port = process.env.PORT || 3000;
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({ secret: 'library' }));
+
+require('./src/config/passport.js')(app);
 app.use((req, res, next) => {
     debug('my middleware');
     next();
