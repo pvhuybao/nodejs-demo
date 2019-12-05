@@ -36,22 +36,30 @@ function router(nav) {
     });
 
     authRouter.route('/signin')
-    .get((req, res) => {
-        res.render('signin', {
-            nav,
-            title: 'signIn'
+        .get((req, res) => {
+            res.render('signin', {
+                nav,
+                title: 'signIn'
+            });
+
+
+        })
+        .post(passport.authenticate('local', {
+            successRedirect: '/auth/profile',
+            failureRedirect: '/'
+        }));
+
+    authRouter.route('/profile')
+        .all((req, res, next) => {
+            if (req.user) {
+                next();
+            } else {
+                res.redirect('/');
+            }
+        })
+        .get((req, res) => {
+            res.json(req.user);
         });
-
-
-    })
-    .post(passport.authenticate('local', {
-        successRedirect: '/auth/profile',
-        failureRedirect: '/'
-    }));
-
-    authRouter.route('/profile').get((req, res) => {
-        res.json(req.user);
-    });
     return authRouter;
 };
 
